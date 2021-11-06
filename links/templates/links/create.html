@@ -1,0 +1,13 @@
+{% extends "links/list.html" %}
+
+{% block title %}Add link{% endblock %}
+
+{% block content %}
+
+<form method="POST">
+    {% csrf_token %}
+    <p class="form-link">{{ form.original }}</p>
+    <p class="form-button"><input type="submit" value="Cut" name="cut">
+</form>
+
+{% endblock %}

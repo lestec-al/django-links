@@ -1,0 +1,41 @@
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'links/style.css' %}">
+<link rel="shortcut icon" type="image/png" href="{% static 'links/favicon.png' %}"/>
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Links{% endblock %}</title>
+  </head>
+  <body>
+    <header>
+      {% if user.is_authenticated %}
+      <div class="topnav">
+        {% url 'links' as links_p %}
+        <a {% if request.get_full_path == links_p %}class="active"{% endif %} href="{% url 'links' %}">My links</a>
+        {% url 'link_create' as link_cr %}
+        <a {% if request.get_full_path == link_cr %}class="active"{% endif %} href="{% url 'link_create' %}">Add link</a>
+        <div class="topnav-right">
+          <p>{{ user|capfirst }}</p>
+          <a href="{% url 'logout' %}">Logout</a>
+        </div>
+      </div>
+      {% else %}
+      {% endif %}
+    </header>
+    <main>
+      {% block content %}
+      <form method="POST">
+      {% csrf_token %}
+        {% for object in object_list %}
+        <p class="link-main"><input type="submit" value="✖" name="{{ object.id }}">
+        <a class="link-main" href="http://127.0.0.1:8000/{{ object.slug }}">http://127.0.0.1:8000/{{ object.slug }}</a></p>
+        {% endfor %}
+      </form>
+      {% endblock %}
+    </main>
+    <footer>
+    </footer> 
+  </body>
+</html>

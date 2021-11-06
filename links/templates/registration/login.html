@@ -1,0 +1,45 @@
+{% extends "links/list.html" %}
+
+{% block title %}Log into Links{% endblock %}
+
+{% block content %}
+
+  {% if form.errors %}
+    <p>Your username and password didn't match. Please try again.</p>
+  {% endif %}
+
+  {% if next %}
+    {% if user.is_authenticated %}
+      <p>You are already logged in.</p>
+      <a href="{% url 'links' %}">To main page</a>
+    {% else %}
+      <p>Please login to see this page.</p>
+    {% endif %}
+  {% endif %}
+
+  {% if user.is_authenticated %}
+    <p>You are already logged in</p>
+    <a href="{% url 'links' %}">To main page</a>
+  {% else %}
+
+  <form method="post" action="{% url 'login' %}">
+    {% csrf_token %}
+    <table>
+      <tr>
+        <td>{{ form.username.label_tag }}</td>
+        <td>{{ form.username }}</td>
+      </tr>
+      <tr>
+        <td>{{ form.password.label_tag }}</td>
+        <td>{{ form.password }}</td>
+      </tr>
+    </table>
+    <input type="submit" value="Login" />
+    <input type="hidden" name="next" value="{{ next }}" />
+  </form>
+
+  <p><a href="{% url 'registration' %}">Registration</a></p>
+
+  {% endif %}
+
+{% endblock %}
