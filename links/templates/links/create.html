@@ -6,8 +6,13 @@
 
 <form method="POST">
     {% csrf_token %}
-    <p class="form-link">{{ form.original }}</p>
-    <p class="form-button"><input type="submit" value="Cut" name="cut">
+    <p class="form-link">{{ form.original }}
+    <input type="submit" value="Cut" name="cut"></p>
 </form>
+
+{% if object.original != None %}
+<p class="error-t">You link:<a class="link-main" href="http://127.0.0.1:8000/{{ object.slug }}">http://127.0.0.1:8000/{{ object.slug }}</a></p>
+{% else %}
+{% endif %}
 
 {% endblock %}

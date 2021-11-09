@@ -3,6 +3,7 @@
 {% block title %}Log into Links{% endblock %}
 
 {% block content %}
+<main class="center">
 
   {% if form.errors %}
     <p>Your username and password didn't match. Please try again.</p>
@@ -37,9 +38,8 @@
     <input type="submit" value="Login" />
     <input type="hidden" name="next" value="{{ next }}" />
   </form>
-
-  <p><a href="{% url 'registration' %}">Registration</a></p>
+  <p><a class="link-main" href="{% url 'registration' %}">Registration</a></p>
 
   {% endif %}
-
+</main>
 {% endblock %}

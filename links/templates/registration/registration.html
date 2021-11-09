@@ -1,8 +1,9 @@
 {% extends "links/list.html" %}
 
-{% block title %}Sign up for Links{% endblock %}
+{% block title %}Registration in Links{% endblock %}
 
 {% block content %}
+<main class="registr">
 
   <p><b>Registration new account</b></p>
   {% if user.is_authenticated %}
@@ -10,10 +11,12 @@
     <a href="{% url 'links' %}">To main page</a>
   {% else %}
   <form method="post">
+  {% load crispy_forms_tags %}
     {% csrf_token %}
-    {{ form.as_p }}
+    {{ form|crispy }}
     <input type="submit" value="Registration" name="registration">
   </form>
   {% endif %}
+</main>
 
 {% endblock %}

@@ -27,13 +27,13 @@ class LinksListView(LoginRequiredMixin, View):
             for obj in queryset:
                 if request.POST.get(str(obj.id)):
                     obj.delete()
-                    return redirect("/")
+                    return redirect("/links/")
             context = {'object_list': queryset}
             return render(request, self.template_name, context)
         except:
             return render(request, 'links/error.html')
 
-class LinksCreateView(LoginRequiredMixin, View):
+class LinksCreateView(View):
     template_name = 'links/create.html'
     def get(self, request):
         form = LinksForm()
@@ -41,43 +41,24 @@ class LinksCreateView(LoginRequiredMixin, View):
 
     def post(self, request):
         form = LinksForm(request.POST or None)
+        context = {}
+        context['form'] = form
         if form.is_valid():
             form = form.save(commit=False)
-            form.user = request.user
+            if request.user.is_authenticated:
+                form.user = request.user
             form.save()
             form.slug = idToShortURL(form.id)
             form.save()
-            return redirect("/%d/"%form.id)
-        return render(request, self.template_name, {'form': form})
+            obj = Links.objects.get(id=form.id)
+            context['object'] = obj
+        return render(request, self.template_name, context)
 
 class LinkSlugView(View):
     def get(self, request, slug=None):
         try:
             obj = Links.objects.get(slug=slug, user=request.user.id)
             return redirect(obj.original)
-        except:
-            return render(request, 'links/error.html')
-
-class LinkDetailView(LoginRequiredMixin, View):
-    template_name = 'links/detail.html'
-
-    def get(self, request, id=None):
-        try:
-            context = {}
-            obj = Links.objects.get(id=id, user=request.user.id)
-            context['object'] = obj
-            return render(request, self.template_name, context)
-        except:
-            return render(request, 'links/error.html')
-
-    def post(self, request, id=None):
-        try:
-            context = {}
-            obj = Links.objects.get(id=id, user=request.user.id)
-            if request.POST.get('delete'):
-                obj.delete()
-                return redirect("/")
-            return render(request, self.template_name, context)
         except:
             return render(request, 'links/error.html')
 
