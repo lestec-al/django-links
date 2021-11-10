@@ -1,6 +1,6 @@
 # django-links
 
-Django link shortener project.
+Django URL shortener project.
 
 The project is at an early stage of development!
 But you can already test the service:
