@@ -1,6 +1,7 @@
 {% load static %}
-<link rel="stylesheet" type="text/css" href="{% static 'links/style.css' %}">
+{% load humanize %}
 <link rel="shortcut icon" type="image/png" href="{% static 'links/favicon.png' %}"/>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 <!DOCTYPE html>
 <html>
   <head>
@@ -8,32 +9,51 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Links{% endblock %}</title>
   </head>
-  <body>
-    <header>
-      <div class="topnav">
-        {% url 'link_create' as link_cr %}
-        <a {% if request.get_full_path == link_cr %}class="active"{% endif %} href="{% url 'link_create' %}">+</a>
-        {% url 'links' as links_p %}
-        <a {% if request.get_full_path == links_p %}class="active"{% endif %} href="{% url 'links' %}">My links</a>
-        <div class="topnav-right">
-          {% if user.is_authenticated %}
-          <p>Hello {{ user|capfirst }}</p>
-          <a href="{% url 'logout' %}">Logout</a>
-          {% else %}
-          <p>Hello Guest</p>
-          <a href="{% url 'login' %}">Login</a>
-          {% endif %}
+  <body class="bg-light">
+    <nav class="navbar sticky-top navbar-dark bg-dark">
+      <div class="container-fluid">
+        {% if user.is_authenticated %}
+        <form class="d-flex" style="margin-bottom: 0;" action="{% url 'links' %}">
+          <input class="form-control-sm me-2 bg-light" type="search" placeholder="Search" aria-label="Search" name="search">
+          <button class="btn btn-outline-success" type="submit">Search</button>
+        </form>
+        <div class="container-{breakpoint}">
+          <a class="navbar-brand" href="{% url 'link_create' %}">Cut</a>
+          <a class="navbar-brand" href="{% url 'links' %}">Links</a>
+          <a class="navbar-brand" href="{% url 'logout' %}">Logout</a>
         </div>
+        {% else %}
+        <a class="navbar-brand" href="{% url 'link_create' %}">Cut link</a>
+        <a class="navbar-brand" href="{% url 'login' %}">Login</a>
+        {% endif %}
       </div>
-    </header>
+    </nav>
     <main>
       {% block content %}
       <form method="POST">
       {% csrf_token %}
-        {% for object in object_list %}
-        <p class="link-main"><input type="submit" value="✖" name="{{ object.id }}">
-        <a class="link-main" href="http://127.0.0.1:8000/{{ object.slug }}">http://127.0.0.1:8000/{{ object.slug }}</a><a class="link-main" href="{{ object.original }}">({{ object.original }})</a></p>
-        {% endfor %}
+        <div class="table-responsive">
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col"></th>
+                <th scope="col">Short</th>
+                <th scope="col">Original</th>
+                <th scope="col">Created</th>
+              </tr>
+            </thead>
+            <tbody>
+            {% for object in object_list %}
+              <tr>
+                <td><input class="btn btn-outline-danger btn-sm" type="submit" value="✖" name="delete{{ object.id }}"></td>
+                <td><a class="link-success" href="http://127.0.0.1:8000/{{ object.slug }}">http://127.0.0.1:8000/{{ object.slug }}</a></td>
+                <td><a class="link-secondary" href="{{ object.original }}">{{ object.original|truncatechars:70 }}</a></td>
+                <td>{{ object.created_at|naturaltime }}</td>
+              </tr>
+            {% endfor %}
+            </tbody>
+          </table>
+        </div>
       </form>
       {% endblock %}
     </main>

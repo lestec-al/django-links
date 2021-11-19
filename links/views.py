@@ -6,6 +6,7 @@ from .forms import LinksForm, UserForm
 from django.contrib.auth.models import Group
 from django.contrib.auth import authenticate, login
 
+# Create individual link from id
 def idToShortURL(id):
     map = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
     shortURL = ""
@@ -16,25 +17,26 @@ def idToShortURL(id):
 
 class LinksListView(LoginRequiredMixin, View):
     template_name = 'links/list.html'
+
     def get(self, request):
-        queryset = Links.objects.filter(user=request.user.id)
+        str_search = request.GET.get("search", False)
+        if str_search:
+            queryset = Links.objects.filter(user=request.user.id, original__contains=str_search).order_by("created_at").reverse()
+        else:
+            queryset = Links.objects.filter(user=request.user.id).order_by("created_at").reverse()
         context = {'object_list': queryset}
         return render(request, self.template_name, context)
 
     def post(self, request, id=None):
-        try:
-            queryset = Links.objects.filter(user=request.user.id)
-            for obj in queryset:
-                if request.POST.get(str(obj.id)):
-                    obj.delete()
-                    return redirect("/links/")
-            context = {'object_list': queryset}
-            return render(request, self.template_name, context)
-        except:
-            return render(request, 'links/error.html')
+        queryset = Links.objects.filter(user=request.user.id)
+        for obj in queryset:
+            if request.POST.get("delete" + str(obj.id)):
+                obj.delete()
+                return redirect("/links/")
 
 class LinksCreateView(View):
     template_name = 'links/create.html'
+
     def get(self, request):
         form = LinksForm()
         return render(request, self.template_name, {'form': form})
@@ -54,6 +56,7 @@ class LinksCreateView(View):
             context['object'] = obj
         return render(request, self.template_name, context)
 
+# Redirect to original link
 class LinkSlugView(View):
     def get(self, request, slug=None):
         try:

@@ -4,12 +4,14 @@ from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 
 class LinksForm(forms.ModelForm):
+    original = forms.URLField(required=True, min_length=11)
     class Meta:
         model = Links
         fields = ["original"]
 
 class UserForm(UserCreationForm):
-    email = forms.EmailField(max_length=254, help_text='Required. Inform a valid email address.')
+    username = forms.CharField(min_length=8, max_length=150, help_text="8 characters or more. Letters, digits and @/./+/-/_ only.")
+    email = forms.EmailField(max_length=254, help_text='Inform a valid email address.', required=True)
 
     class Meta:
         model = User

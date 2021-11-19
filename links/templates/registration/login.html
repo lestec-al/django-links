@@ -3,7 +3,7 @@
 {% block title %}Log into Links{% endblock %}
 
 {% block content %}
-<main class="center">
+<div class="position-absolute top-50 start-50 translate-middle">
 
   {% if form.errors %}
     <p>Your username and password didn't match. Please try again.</p>
@@ -12,7 +12,6 @@
   {% if next %}
     {% if user.is_authenticated %}
       <p>You are already logged in.</p>
-      <a href="{% url 'links' %}">To main page</a>
     {% else %}
       <p>Please login to see this page.</p>
     {% endif %}
@@ -20,26 +19,18 @@
 
   {% if user.is_authenticated %}
     <p>You are already logged in</p>
-    <a href="{% url 'links' %}">To main page</a>
   {% else %}
 
   <form method="post" action="{% url 'login' %}">
     {% csrf_token %}
-    <table>
-      <tr>
-        <td>{{ form.username.label_tag }}</td>
-        <td>{{ form.username }}</td>
-      </tr>
-      <tr>
-        <td>{{ form.password.label_tag }}</td>
-        <td>{{ form.password }}</td>
-      </tr>
-    </table>
-    <input type="submit" value="Login" />
+    {% load crispy_forms_tags %}
+    {{ form|crispy }}
+    <br>
+    <input class="btn btn-outline-success" type="submit" value="Login" />
     <input type="hidden" name="next" value="{{ next }}" />
+    <a class="btn btn-outline-primary" role="button" href="{% url 'registration' %}">Registration</a>
   </form>
-  <p><a class="link-main" href="{% url 'registration' %}">Registration</a></p>
 
   {% endif %}
-</main>
+</div>
 {% endblock %}

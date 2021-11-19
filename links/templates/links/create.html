@@ -1,18 +1,22 @@
 {% extends "links/list.html" %}
 
-{% block title %}Add link{% endblock %}
+{% block title %}Links - Cut{% endblock %}
 
 {% block content %}
 
-<form method="POST">
-    {% csrf_token %}
-    <p class="form-link">{{ form.original }}
-    <input type="submit" value="Cut" name="cut"></p>
-</form>
-
-{% if object.original != None %}
-<p class="error-t">You link:<a class="link-main" href="http://127.0.0.1:8000/{{ object.slug }}">http://127.0.0.1:8000/{{ object.slug }}</a></p>
-{% else %}
-{% endif %}
+<div class="position-absolute top-50 start-50 translate-middle">
+    <form method="POST" class="input-group mb-3">
+        {% csrf_token %}
+        <input class="form-control" placeholder="Shorten your link" type="url" name="original" minlength="11" required="" id="id_original">
+        <button type="submit" name="cut" class="btn btn-success">Cut</button>
+    </form>
+    {% if object.original%}
+    <div class="p-3 mb-2 bg-success text-white">
+        You link:
+        <a class="link-warning" href="http://127.0.0.1:8000/{{ object.slug }}">http://127.0.0.1:8000/{{ object.slug }}</a>
+    </div>
+    {% else %}
+    {% endif %}
+</div>
 
 {% endblock %}

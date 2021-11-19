@@ -2,12 +2,12 @@
 
 Django URL shortener project.
 
-The project is at an early stage of development!
-But you can already test the service:
-
-https://lestec.pythonanywhere.com/
-
 What is done:
 - accounts for users with registration / login / logout
-- cut and use links for all, and for register users, individual list of links (add / delete)
+- cut and use (redirect to original) links for all, and for register users, individual list of links (with add / delete)
 - basic interface
+
+How it looks now:
+
+<img src="https://github.com/lestec-al/django-links/raw/master/pic-readme-1.png" width="681" height="521" />
+<img src="https://github.com/lestec-al/django-links/raw/master/pic-readme-2.png" width="681" height="521" />
