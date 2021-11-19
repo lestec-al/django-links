@@ -9,5 +9,5 @@ What is done:
 
 How it looks now:
 
-<img src="https://github.com/lestec-al/django-links/raw/master/pic-readme-1.png" width="681" height="521" />
-<img src="https://github.com/lestec-al/django-links/raw/master/pic-readme-2.png" width="681" height="521" />
+<img src="https://github.com/lestec-al/django-links/raw/master/pic-readme-1.png" width="945" height="456" />
+<img src="https://github.com/lestec-al/django-links/raw/master/pic-readme-2.png" width="945" height="456" />
