@@ -1,0 +1,24 @@
+{% load static %}
+<nav class="navbar navbar-expand-lg navbar-dark bg-success bg-gradient shadow p-1 mb-3">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="{% url 'link_create' %}"><img src="{% static 'links/favicon.png' %}" width="30" height="30">  Cut link</a>
+        {% if user.is_authenticated %}
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
+            <form class="d-flex me-auto mb-2 mb-lg-0" action="{% url 'links' %}">
+                <input class="form-control-sm me-2 bg-light" type="search" placeholder="Search" aria-label="Search" name="search">
+                <button class="btn btn-outline-light btn-sm" type="submit">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+                </svg></button>
+            </form>
+            <a class="navbar-brand" href="{% url 'links' %}">My links</a>
+            <a class="navbar-brand" href="{% url 'logout' %}">Logout</a>
+        </div>
+        {% else %}
+        <a class="navbar-brand" href="{% url 'login' %}">Login</a>
+        {% endif %}
+    </div>
+</nav>

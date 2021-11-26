@@ -4,7 +4,7 @@ from django.views import View
 from .models import Links
 from .forms import LinksForm, UserForm
 from django.contrib.auth.models import Group
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import login
 
 # Create individual link from id
 def idToShortURL(id):
@@ -19,12 +19,13 @@ class LinksListView(LoginRequiredMixin, View):
     template_name = 'links/list.html'
 
     def get(self, request):
+        context = {}
         str_search = request.GET.get("search", False)
         if str_search:
-            queryset = Links.objects.filter(user=request.user.id, original__contains=str_search).order_by("created_at").reverse()
+            queryset = Links.objects.filter(user=request.user.id, original__contains=str_search).order_by("-created_at")
         else:
-            queryset = Links.objects.filter(user=request.user.id).order_by("created_at").reverse()
-        context = {'object_list': queryset}
+            queryset = Links.objects.filter(user=request.user.id).order_by("-created_at")
+        context['object_list'] = queryset
         return render(request, self.template_name, context)
 
     def post(self, request, id=None):
@@ -39,7 +40,9 @@ class LinksCreateView(View):
 
     def get(self, request):
         form = LinksForm()
-        return render(request, self.template_name, {'form': form})
+        context = {}
+        context['form'] = form
+        return render(request, self.template_name, context)
 
     def post(self, request):
         form = LinksForm(request.POST or None)
@@ -56,11 +59,13 @@ class LinksCreateView(View):
             context['object'] = obj
         return render(request, self.template_name, context)
 
-# Redirect to original link
-class LinkSlugView(View):
+# Redirect to original link + count clicks
+class LinkRedirectView(View):
     def get(self, request, slug=None):
         try:
             obj = Links.objects.get(slug=slug, user=request.user.id)
+            obj.counter += 1
+            obj.save()
             return redirect(obj.original)
         except:
             return render(request, 'links/error.html')
@@ -75,16 +80,14 @@ class RegistrationView(View):
         return render(request, self.template_name, context)
 
     def post(self, request):
-            context = {}
-            g = Group.objects.get(name='Common Users')
-            if request.POST.get('registration'):
-                form = UserForm(request.POST)
-                if form.is_valid():
-                    form.save()
-                    username = form.cleaned_data.get('username')
-                    raw_password = form.cleaned_data.get('password1')
-                    user = authenticate(username=username, password=raw_password)
-                    login(request, user)
-                    g.user_set.add(user.id)
-                    return redirect("/")
-                return render(request, self.template_name, {'form': form})
+        g = Group.objects.get(name='Common Users')
+        if request.POST.get('registration'):
+            form = UserForm(request.POST)
+            if form.is_valid():
+                user = form.save(commit=False)
+                user.username = user.username.lower()
+                user.save()
+                login(request, user)
+                g.user_set.add(user.id)
+                return redirect("/")
+            return render(request, self.template_name, {'form': form})

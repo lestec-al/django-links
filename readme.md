@@ -3,11 +3,13 @@
 Django URL shortener project.
 
 What is done:
-- accounts for users with registration / login / logout
-- cut and use (redirect to original) links for all, and for register users, individual list of links (with add / delete)
-- basic interface
+- accounts for users (registration, login, logout)
+- cut links to unique short link (for all users)
+- short link redirect to original link
+- individual page with links with: search form (searches from original link), ability delete links, clicks count, time created (for registered users)
+- basic interface with appearance of pages (used bootstrap)
 
 How it looks now:
 
-<img src="https://github.com/lestec-al/django-links/raw/master/pic-readme-1.png" width="945" height="456" />
-<img src="https://github.com/lestec-al/django-links/raw/master/pic-readme-2.png" width="945" height="456" />
+<img src="https://github.com/lestec-al/django-links/raw/master/pic-readme-1.jpg" />
+<img src="https://github.com/lestec-al/django-links/raw/master/pic-readme-2.jpg" />

@@ -10,8 +10,10 @@ class LinksForm(forms.ModelForm):
         fields = ["original"]
 
 class UserForm(UserCreationForm):
-    username = forms.CharField(min_length=8, max_length=150, help_text="8 characters or more. Letters, digits and @/./+/-/_ only.")
-    email = forms.EmailField(max_length=254, help_text='Inform a valid email address.', required=True)
+    username = forms.CharField(min_length=8, max_length=150, help_text="")
+    email = forms.EmailField(max_length=254, help_text="", required=True)
+    password1 = forms.CharField(label="Password", help_text="", widget=forms.PasswordInput)
+    password2 = forms.CharField(label="Confirm password", help_text="", widget=forms.PasswordInput)
 
     class Meta:
         model = User
