@@ -16,15 +16,15 @@
     <form method="POST" style="margin:0">{% csrf_token %}
       <div class="row row-cols-auto m-1">
       {% for object in object_list %}
-        <div class="container m-1 p-1" style="max-width: 400px;">
+        <div class="container m-1 p-1" style="max-width: 300px;">
           <div class="row shadow m-1 rounded border border-secondary">
             <div class="p-2">
               <a class="link-success" href="http://127.0.0.1:8000/{{ object.slug }}">http://127.0.0.1:8000/{{ object.slug }}</a>
             </div>
             <div class="p-2">
-              <a class="link-secondary" href="{{ object.original }}">{{ object.original|slice:"8:40" }}...</a>
+              <a class="link-secondary" href="{{ object.original }}">{{ object.original|slice:"8:35" }}...</a>
             </div>
-            <div class="col-7 p-2">
+            <div class="p-2">
               {{ object.created_at|naturaltime }}
             </div>
             <div class="col-4 p-2">
