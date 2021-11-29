@@ -19,7 +19,7 @@
         <div class="container m-1 p-1" style="max-width: 300px;">
           <div class="row shadow m-1 rounded border border-secondary">
             <div class="p-2">
-              <a class="link-success" href="http://127.0.0.1:8000/{{ object.slug }}">http://127.0.0.1:8000/{{ object.slug }}</a>
+              <a class="link-success" href="{% url 'link' object.slug %}">{{request.build_absolute_uri|slice:":-6"}}{{object.slug}}/</a>
             </div>
             <div class="p-2">
               <a class="link-secondary" href="{{ object.original }}">{{ object.original|slice:"8:35" }}...</a>
