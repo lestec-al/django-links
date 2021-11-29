@@ -3,7 +3,6 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views import View
 from .models import Links
 from .forms import LinksForm, UserForm
-from django.contrib.auth.models import Group
 from django.contrib.auth import login
 
 # Create individual link from id
@@ -80,7 +79,6 @@ class RegistrationView(View):
         return render(request, self.template_name, context)
 
     def post(self, request):
-        g = Group.objects.get(name='Common Users')
         if request.POST.get('registration'):
             form = UserForm(request.POST)
             if form.is_valid():
@@ -88,6 +86,5 @@ class RegistrationView(View):
                 user.username = user.username.lower()
                 user.save()
                 login(request, user)
-                g.user_set.add(user.id)
                 return redirect("/")
             return render(request, self.template_name, {'form': form})
