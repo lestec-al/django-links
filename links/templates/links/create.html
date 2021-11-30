@@ -12,7 +12,7 @@
         <div class="mt-1 text-white">
             {% if object.original%}
             You link:
-            <a class="link-warning" href="{% url 'link' object.slug %}">{{request.build_absolute_uri}}{{object.slug}}/</a>
+            <a class="link-warning" href="{% url 'link' object.slug %}">{{request.get_host}}/{{object.slug}}/</a>
             {% endif %}
         </div>
     </div>
