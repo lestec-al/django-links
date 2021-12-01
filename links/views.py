@@ -2,8 +2,9 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views import View
 from .models import Links
-from .forms import LinksForm, UserForm
+from .forms import LinksForm, UserForm, UserUpdateForm
 from django.contrib.auth import login
+from django.contrib.auth.models import User
 
 # Create individual link from id
 def idToShortURL(id):
@@ -57,6 +58,27 @@ class LinksCreateView(View):
             obj = Links.objects.get(id=form.id)
             context['object'] = obj
         return render(request, self.template_name, context)
+
+class SettingsView(LoginRequiredMixin, View):
+    template_name = 'links/settings.html'
+    def get(self, request):
+        context = {}
+        user = User.objects.get(id=request.user.id)
+        update_user_form = UserUpdateForm(instance=user)
+        context['update_user_form'] = update_user_form
+        return render(request, self.template_name, context)
+
+    def post(self, request):
+        context = {}
+        if request.POST.get('update_account'):
+            user = User.objects.get(id=request.user.id)
+            update_user_form = UserUpdateForm(request.POST, instance=user)
+            if update_user_form.is_valid():
+                user = update_user_form.save(commit=False)
+                user.save()
+                return redirect("/settings/")
+            context['update_user_form'] = update_user_form
+            return render(request, self.template_name, context)
 
 # Redirect to original link + count clicks
 class LinkRedirectView(View):
