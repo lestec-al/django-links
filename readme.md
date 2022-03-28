@@ -1,6 +1,8 @@
 # django-links
 
-URL shortener django web project with educational purpose. Features:
+URL shortener website (python - django project) create a short and unique links. You can test functionality (the final link is not short because the test host is long): https://lestec.pythonanywhere.com/
+
+Features:
 
 - accounts for users (registration, login, logout)
 - cut links to unique short link (for all users)
@@ -11,6 +13,6 @@ URL shortener django web project with educational purpose. Features:
 <img src="https://github.com/lestec-al/django-links/raw/master/pic-readme-1.jpg" />
 <img src="https://github.com/lestec-al/django-links/raw/master/pic-readme-2.jpg" />
 
-I used Python v3.10, requirements.txt contain other dependencies.
-
-You can test functionality (the final link is not short because the test host is long): https://lestec.pythonanywhere.com/
+To run on your local server, you need:
+- install Python (v3.9 or higher)
+- install all from requirements.txt (django, django-crispy-forms)
