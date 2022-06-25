@@ -1,0 +1,38 @@
+<style>
+    .overlay {
+        position: fixed;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: rgba(0,0,0,0.5);
+        z-index: 2;
+        cursor: pointer;}
+</style>
+<div class="overlay">
+    <div class="modal" tabindex="-1" style="display:initial">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Edit link</h5>
+                    <a class="btn-close" role="button" aria-label="Close" href="{% url 'links' %}"></a>
+                </div>
+                <form method="POST" class="row m-2 mt-3">{% csrf_token %}
+                    <div class="col-10">
+                        {% if not_valid %}
+                        <input type="text" name="slug" class="form-control mb-3 is-invalid" value="{{ edit_obj.slug }}">
+                        <div class="invalid-feedback">Name already taken</div>
+                        {% else %}
+                        <input type="text" name="slug" class="form-control mb-3" value="{{ edit_obj.slug }}">
+                        {% endif %}
+                    </div>
+                    <div class="col-auto">
+                        <input class="btn btn-outline-secondary" type="submit" value="✓" name="save_edit_link-{{ edit_obj.id }}">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

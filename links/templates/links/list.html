@@ -22,7 +22,7 @@
               <a class="link-success" href="{% url 'link' object.slug %}">{{request.get_host}}/{{object.slug}}/</a>
             </div>
             <div class="p-2">
-              <a class="link-secondary" href="{{ object.original }}">{{ object.original|slice:"8:35" }}...</a>
+              <a class="link-secondary" title={{ object.original }} href="{{ object.original }}">{{ object.original|slice:"8:35" }}...</a>
             </div>
             <div class="p-2">
               {{ object.created_at|naturaltime }}
@@ -31,13 +31,17 @@
               {{ object.counter }} clicks
             </div>
             <div class="col-1 p-0">
-              <input class="btn btn-outline-danger btn-sm" type="submit" value="✘" name="delete{{ object.id }}">
+              <input class="btn btn-outline-danger btn-sm" type="submit" value=" ✘ " name="delete-{{ object.id }}">
+            </div>
+            <div class="col-1 p-0 ps-3">
+              <input class="btn btn-outline-warning btn-sm" type="submit" value="✏" name="edit-{{ object.id }}">
             </div>
           </div>
         </div>
       {% endfor %}
       </div>
     </form>
+    {% if edit_form %}{% include "links/overlay.html" %}{% endif %}
     {% endblock %}
   </body>
 </html>

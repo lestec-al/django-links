@@ -1,0 +1,32 @@
+{% extends "links/list.html" %}
+
+{% block title %}Links - Profile{% endblock %}
+
+{% block content %}
+
+<div class="m-4">
+  <p>Signed in as: <b>{{ user }}</b></p>
+  <div class="m-1">
+    {% if update_user_form %}
+    <form method="post">{% csrf_token %}
+      {% load crispy_forms_tags %}
+      {{ update_user_form|crispy }}
+      <br>
+      <input class="btn btn-warning" type="submit" value="Update profile" name="update_account">
+    </form>
+    {% endif %}
+  </div>
+  <div class="m-1">
+    {% if update_password_form %}
+    <form method="post">{% csrf_token %}
+      <p>If you want change password, please enter your old password and then enter your new password twice.</p>
+      {% load crispy_forms_tags %}
+      {{ update_password_form|crispy }}
+      <br>
+      <input class="btn btn-warning" type="submit" value="Update password" name="update_password">
+    </form>
+    {% endif %}
+  </div>
+</div>
+
+{% endblock %}
