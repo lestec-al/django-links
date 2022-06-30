@@ -1,6 +1,6 @@
 # URL shortener
 
-URL shortener website (python - django project) create a short and unique links. You can test functionality (the final link is not short because the test host is long): https://lestec.pythonanywhere.com/
+URL shortener website (python - django project) create a short and unique links. You can test functionality (the final link is not short because the test host is long): https://url-cuter.herokuapp.com/
 
 Features:
 - accounts for users (registration, login, logout)
