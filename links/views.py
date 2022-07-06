@@ -91,7 +91,7 @@ class ProfileView(LoginRequiredMixin, View):
 def link_redirect_view(request, slug=None):
     """Redirect to original link + count clicks"""
     try:
-        obj = Link.objects.get(slug=slug, user=request.user.id)
+        obj = Link.objects.get(slug=slug)
         obj.counter += 1
         obj.save()
         return redirect(obj.original)
