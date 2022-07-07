@@ -1,6 +1,5 @@
 from pathlib import Path
 import os
-from boto.s3.connection import S3Connection
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -81,13 +80,13 @@ DATABASES = {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
     } if DEBUG == True else {
-        'ENGINE': S3Connection(os.environ['DATABASE_ENGINE']),
-        'NAME': S3Connection(os.environ['DATABASE_NAME']),
-        'USER': S3Connection(os.environ['DATABASE_USER']),
-        'PASSWORD': S3Connection(os.environ['DATABASE_PASSWORD']),
-        'HOST': S3Connection(os.environ['DATABASE_HOST']),
-        'PORT': S3Connection(os.environ['DATABASE_PORT']),
-        'CONN_MAX_AGE': S3Connection(os.environ['DATABASE_CONN_MAX_AGE']),
+        'ENGINE': os.environ['DATABASE_ENGINE'],
+        'NAME': os.environ['DATABASE_NAME'],
+        'USER': os.environ['DATABASE_USER'],
+        'PASSWORD': os.environ['DATABASE_PASSWORD'],
+        'HOST': os.environ['DATABASE_HOST'],
+        'PORT': os.environ['DATABASE_PORT'],
+        'CONN_MAX_AGE': os.environ['DATABASE_CONN_MAX_AGE'],
     }
 }
 
