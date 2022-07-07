@@ -11,4 +11,4 @@ Features:
 
 To run on your local server, you need:
 - install Python (v3.9 or higher)
-- install django, django-crispy-forms
+- install all from requirements.txt
