@@ -2,8 +2,8 @@
 
 https://url-cuter.herokuapp.com/
 
-<img src="https://github.com/lestec-al/url-shortener-django/raw/main/url1.png" width="960" height="540"/>
-<img src="https://github.com/lestec-al/url-shortener-django/raw/main/url2.png" width="960" height="540"/>
+<img src="https://github.com/lestec-al/url-shortener-django/blob/master/url1.png" width="960" height="540"/>
+<img src="https://github.com/lestec-al/url-shortener-django/blob/master/url2.png" width="960" height="540"/>
 
 Link shortening service on Django. Features:
 - final link is not short because the test host is long
